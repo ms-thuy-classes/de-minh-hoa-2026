@@ -4,38 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Bài kiểm tra tham khảo Tiếng Anh vào 10 TP.HCM 2026</title>
-    <!-- Google Fonts & Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- PDF.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(145deg, #f8f0ff 0%, #e0f2fe 100%);
             min-height: 100vh;
             padding: 24px 32px;
         }
-
-        /* MAIN LAYOUT */
         .exam-container {
             max-width: 1600px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(2px);
             border-radius: 48px;
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255,255,255,0.6);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             padding: 20px;
         }
-
-        /* header section */
         .info-header {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(8px);
@@ -47,7 +36,6 @@
             justify-content: space-between;
             align-items: center;
             gap: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
         .student-info {
             display: flex;
@@ -61,7 +49,6 @@
             background: #f1e6ff;
             padding: 6px 14px;
             border-radius: 40px;
-            font-size: 0.9rem;
         }
         .student-info input {
             border: none;
@@ -70,9 +57,7 @@
             border-radius: 40px;
             font-size: 1rem;
             width: 240px;
-            font-weight: 500;
             outline: none;
-            transition: all 0.2s;
             border: 1px solid #ddc4ff;
         }
         .student-info input:focus {
@@ -87,28 +72,22 @@
             color: white;
             font-weight: 700;
             font-size: 1.6rem;
-            letter-spacing: 2px;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+            font-family: monospace;
         }
-
-        /* RESIZABLE COLUMNS */
         .columns-wrapper {
             display: flex;
             align-items: stretch;
             gap: 0;
-            background: rgba(255,255,240,0.3);
-            border-radius: 32px;
-            backdrop-filter: blur(4px);
+            min-height: 70vh;
         }
         .pdf-column {
             width: 66.666%;
-            background: #fffef7;
+            background: #f5f3ee;
             border-radius: 28px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transition: all 0.2s;
         }
         .answer-column {
             width: 33.333%;
@@ -119,41 +98,45 @@
             flex-direction: column;
             overflow: hidden;
         }
-        /* Resizer bar */
         .resizer {
             width: 16px;
             cursor: col-resize;
             background: linear-gradient(to bottom, #c7b2ff, #f0d9ff);
             margin: 0 4px;
             border-radius: 20px;
-            transition: 0.1s linear;
-            position: relative;
+            transition: 0.1s;
         }
         .resizer:hover, .resizer.active {
             background: #a06eff;
             box-shadow: 0 0 0 2px white, 0 0 0 4px #c084fc;
         }
-
-        /* Scroll areas */
+        /* PDF Viewer với thanh cuộn riêng - HIỂN THỊ NHIỀU TRANG */
         .pdf-viewer {
             flex: 1;
             overflow-y: auto;
-            padding: 16px;
-            background: #fefef5;
-            min-height: 65vh;
+            padding: 20px;
+            background: #e2dcd0;
+            scroll-behavior: smooth;
+        }
+        .pdf-page {
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: center;
+        }
+        .pdf-page canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            display: block;
         }
         .answer-sheet {
             flex: 1;
             overflow-y: auto;
             padding: 20px 20px 30px;
             scroll-behavior: smooth;
-        }
-        canvas {
-            width: 100%;
-            height: auto;
-            display: block;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border-radius: 16px;
         }
         .question-group {
             margin-bottom: 28px;
@@ -162,13 +145,13 @@
         }
         .q-title {
             font-weight: 700;
-            font-size: 1rem;
             color: #4c1d95;
             background: #f0e9ff;
             display: inline-block;
             padding: 4px 16px;
             border-radius: 40px;
             margin-bottom: 14px;
+            font-size: 0.9rem;
         }
         .q-row {
             margin: 12px 0;
@@ -195,7 +178,6 @@
             transition: all 0.2s;
             font-weight: 500;
             border: 1px solid #e0d4ff;
-            color: #2c2c2c;
         }
         .opt-btn.selected {
             background: #a855f7;
@@ -207,23 +189,12 @@
             transform: translateY(-2px);
             background: #d9caff;
         }
-        .tf-opt {
-            min-width: 70px;
-            text-align: center;
-        }
-        input.word-input {
+        .word-input {
             border: 1px solid #ddd6fe;
             border-radius: 32px;
             padding: 8px 16px;
-            width: 220px;
+            width: 280px;
             font-size: 0.85rem;
-            background: white;
-        }
-        .cloze-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 10px;
         }
         button.submit-btn {
             background: linear-gradient(95deg, #06b6d4, #3b82f6);
@@ -237,14 +208,10 @@
             width: 100%;
             margin-top: 24px;
             transition: 0.2s;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
         }
         button.submit-btn:hover {
             transform: scale(0.98);
-            background: linear-gradient(95deg, #0891b2, #2563eb);
         }
-
-        /* modal result */
         .result-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -271,8 +238,6 @@
             border-radius: 48px;
             padding: 28px;
             overflow-y: auto;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
-            border: 1px solid #ffffffaa;
         }
         .mistake-item {
             background: #fff0f0;
@@ -289,6 +254,12 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
+            margin-top: 20px;
+        }
+        .loading-pdf {
+            text-align: center;
+            padding: 40px;
+            color: #6b21a5;
         }
         @media (max-width: 800px) {
             body { padding: 16px; }
@@ -296,9 +267,9 @@
             .pdf-column, .answer-column { width: 100% !important; }
             .resizer { display: none; }
         }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1e9ff; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: #bda4f0; border-radius: 10px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e0d4ff; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #a855f7; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -314,14 +285,15 @@
     <div class="columns-wrapper" id="columnsWrapper">
         <div class="pdf-column" id="pdfColumn">
             <div class="pdf-viewer" id="pdfContainer">
-                <div style="text-align:center; padding: 40px;">Đang tải đề thi ... <i class="fas fa-spinner fa-pulse"></i></div>
+                <div class="loading-pdf"><i class="fas fa-spinner fa-pulse"></i> Đang tải đề thi...</div>
             </div>
         </div>
         <div class="resizer" id="resizer"></div>
         <div class="answer-column" id="answerColumn">
             <div class="answer-sheet" id="answerSheet">
-                <div style="font-weight: 800; font-size: 1.3rem; margin-bottom: 16px;"><i class="fas fa-edit"></i> Phiếu trả lời</div>
-                <!-- Các câu hỏi sẽ được render bằng js dựa theo cấu trúc đề + đáp án giải thích -->
+                <div style="font-weight: 800; font-size: 1.3rem; margin-bottom: 16px;">
+                    <i class="fas fa-edit"></i> Phiếu trả lời
+                </div>
                 <div id="dynamicQuestions"></div>
                 <button class="submit-btn" id="submitExam"><i class="fas fa-paper-plane"></i> Nộp bài</button>
             </div>
@@ -340,7 +312,7 @@
 <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-    // ---------- ĐÁP ÁN VÀ GIẢI THÍCH (từ file giải thích chi tiết) ----------
+    // ========== ĐÁP ÁN VÀ GIẢI THÍCH ==========
     const answerKey = {
         1: "C", 2: "D", 3: "B", 4: "A", 5: "B", 6: "C", 7: "D", 8: "C", 9: "A", 10: "C",
         11: "C", 12: "A", 13: "D", 14: "B", 15: "B", 16: "D", 17: "C", 18: "A", 19: "D", 20: "B",
@@ -353,51 +325,25 @@
         40: "The team finally came up with a good solution to the problem."
     };
     
-    // Giải thích chi tiết (lưu theo id câu)
     const explanations = {
-        1: "Phát âm -ed: resets /ɪd/ khác /t/,/d/. Dịch: chọn từ phát âm khác.",
-        2: "mg có âm câm? thực tế 'mg' phát âm khác /k/ so với âm khác. (theo đề cũ)",
-        3: "attraction (đề gốc) nhưng ở đây câu 3 là 'equip' trọng âm 2, còn lại âm 1.",
-        4: "discover trọng âm 2, các từ còn lại âm 1.",
-        5: "Thì hiện tại tiếp diễn diễn tả hành động đang xảy ra.",
-        6: "under the table: bên dưới cái bàn.",
-        7: "keen on: thích, đam mê.",
-        8: "carry out: tiến hành (khảo sát).",
-        9: "who thay thế cho chủ ngữ chỉ người.",
-        10: "dedicated: tận tụy → được tôn trọng.",
-        11: "Although: mặc dù trời mưa.",
-        12: "entertainment: giải trí.",
-        13: "Đáp lại lời chúc: Thanks! The same to you!",
-        14: "Where have you been? để hỏi lý do đến muộn.",
-        15: "Biển báo trường học: Slow down; school pupils ahead.",
-        16: "Sàn trơn trượt khi ướt → cẩn thận.",
-        17: "sport (môn thể thao cầu lông).",
-        18: "open space: không gian rộng thoáng.",
-        19: "energy: năng lượng.",
-        20: "relax: thư giãn.",
-        21: "quick decision-making: ra quyết định nhanh.",
-        22: "for everyone: dành cho mọi người.",
-        23: "True (xuất phát từ Nam bộ).",
-        24: "False (ngày nay ít phổ biến).",
-        25: "True (nên dạy trong trường).",
-        26: "False (chia sẻ trực tuyến giúp bảo tồn).",
-        27: "C (people are more interested in new things).",
-        28: "C (không có hội thảo khoa học nào được nhắc đến).",
-        29: "colorful (đầy màu sắc).",
-        30: "Impressive (ấn tượng).",
-        31: "Surprisingly (thật ngạc nhiên).",
-        32: "heated (được làm nóng).",
-        33: "permission (sự cho phép).",
-        34: "documentary (phim tài liệu).",
-        35: "source of information (nguồn thông tin).",
-        36: "detailed information (thông tin chi tiết).",
-        37: "have difficulty (in) V-ing: gặp khó khăn khi nấu ăn.",
-        38: "It has been + time + since: đã khá lâu từ khi họ gặp nhau.",
-        39: "So sánh hơn nhất: không trường nào tốt bằng.",
+        1: "Phát âm -ed: resets /ɪd/ khác /t/,/d/.", 2: "mg có âm câm /k/ khác biệt.", 3: "equip trọng âm 2, còn lại âm 1.",
+        4: "discover trọng âm 2, các từ còn lại âm 1.", 5: "Thì hiện tại tiếp diễn - đang viết.", 6: "under the table.",
+        7: "keen on: thích, đam mê.", 8: "carry out: tiến hành khảo sát.", 9: "who thay thế chủ ngữ chỉ người.",
+        10: "dedicated: tận tụy → được tôn trọng.", 11: "Although: mặc dù.", 12: "entertainment: giải trí.",
+        13: "Đáp lại lời chúc: Thanks! The same to you!", 14: "Where have you been? Hỏi lý do đến muộn.",
+        15: "Biển báo trường học: Slow down; school pupils ahead.", 16: "Sàn trơn khi ướt → cẩn thận.",
+        17: "sport (môn thể thao cầu lông).", 18: "open space: không gian rộng.", 19: "energy: năng lượng.",
+        20: "relax: thư giãn.", 21: "quick decision-making: quyết định nhanh.", 22: "for everyone: dành cho mọi người.",
+        23: "True - xuất phát từ Nam bộ.", 24: "False - ngày nay ít phổ biến.", 25: "True - nên dạy trong trường.",
+        26: "False - chia sẻ trực tuyến giúp bảo tồn.", 27: "people are more interested in new things.",
+        28: "Không có hội thảo khoa học nào được nhắc đến.", 29: "colorful: đầy màu sắc.", 30: "Impressive: ấn tượng.",
+        31: "Surprisingly: thật ngạc nhiên.", 32: "heated: được làm nóng.", 33: "permission: sự cho phép.",
+        34: "documentary: phim tài liệu.", 35: "source of information: nguồn thông tin.",
+        36: "detailed information: thông tin chi tiết.", 37: "have difficulty (in) V-ing: gặp khó khăn khi nấu.",
+        38: "It has been + time + since: đã lâu từ khi họ gặp nhau.", 39: "So sánh nhất: không trường nào tốt bằng.",
         40: "come up with: nghĩ ra giải pháp."
     };
     
-    // Cấu hình câu hỏi: loại 'choice', 'tf', 'word', 'phrase', 'sentence'
     const questionsConfig = [];
     for (let i = 1; i <= 28; i++) {
         if (i >= 23 && i <= 26) questionsConfig.push({ id: i, type: 'tf', options: ['T', 'F'] });
@@ -409,47 +355,44 @@
     
     let userAnswers = {};
     let timerInterval;
-    let timeLeft = 45 * 60; // 45 phút
+    let timeLeft = 45 * 60;
     let examSubmitted = false;
     
-    // Resize two columns
-    const pdfCol = document.getElementById('pdfColumn');
-    const ansCol = document.getElementById('answerColumn');
-    const resizer = document.getElementById('resizer');
-    let startX, startPdfWidth;
-    function initResize() {
-        resizer.addEventListener('mousedown', (e) => {
-            startX = e.clientX;
-            startPdfWidth = pdfCol.offsetWidth;
-            document.body.style.cursor = 'col-resize';
-            resizer.classList.add('active');
-            window.addEventListener('mousemove', onMouseMove);
-            window.addEventListener('mouseup', onMouseUp);
-            e.preventDefault();
-        });
-        function onMouseMove(e) {
-            const dx = e.clientX - startX;
-            const containerWidth = document.getElementById('columnsWrapper').offsetWidth;
-            let newPdfW = startPdfWidth + dx;
-            if (newPdfW < 200) newPdfW = 200;
-            if (newPdfW > containerWidth - 200) newPdfW = containerWidth - 200;
-            const newAnsW = containerWidth - newPdfW - 16;
-            pdfCol.style.width = newPdfW + 'px';
-            ansCol.style.width = newAnsW + 'px';
-        }
-        function onMouseUp() {
-            document.body.style.cursor = '';
-            resizer.classList.remove('active');
-            window.removeEventListener('mousemove', onMouseMove);
-            window.removeEventListener('mouseup', onMouseUp);
+    // ========== HIỂN THỊ NHIỀU TRANG PDF ==========
+    async function renderAllPages(pdfDoc) {
+        const container = document.getElementById('pdfContainer');
+        container.innerHTML = '';
+        const numPages = pdfDoc.numPages;
+        for (let i = 1; i <= numPages; i++) {
+            const page = await pdfDoc.getPage(i);
+            const viewport = page.getViewport({ scale: 1.3 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'pdf-page';
+            pageDiv.appendChild(canvas);
+            container.appendChild(pageDiv);
+            
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
         }
     }
     
-    // Render answer sheet
+    function loadPDF() {
+        const url = "https://raw.githubusercontent.com/ms-thuy-classes/audio/main/de-tham-khao-tieng-anh-vao-10-tphcm-2026.pdf";
+        pdfjsLib.getDocument(url).promise.then(async doc => {
+            await renderAllPages(doc);
+        }).catch(err => {
+            document.getElementById('pdfContainer').innerHTML = `<div style="padding:20px;color:red;">❌ Lỗi tải PDF: ${err.message}</div>`;
+        });
+    }
+    
+    // ========== RENDER ANSWER SHEET ==========
     function renderAnswerSheet() {
         const container = document.getElementById('dynamicQuestions');
         container.innerHTML = '';
-        let currentGroup = null;
         for (let q of questionsConfig) {
             const groupDiv = document.createElement('div');
             groupDiv.className = 'question-group';
@@ -464,12 +407,13 @@
             qNumSpan.className = 'q-num';
             qNumSpan.innerText = `${q.id}.`;
             rowDiv.appendChild(qNumSpan);
+            
             if (q.type === 'choice' || q.type === 'tf') {
                 const optsDiv = document.createElement('div');
                 optsDiv.className = 'options';
                 q.options.forEach(opt => {
                     const btn = document.createElement('div');
-                    btn.className = `opt-btn ${q.type === 'tf' ? 'tf-opt' : ''}`;
+                    btn.className = `opt-btn`;
                     btn.innerText = opt;
                     btn.onclick = () => {
                         if (examSubmitted) return;
@@ -487,7 +431,6 @@
                 input.type = 'text';
                 input.placeholder = q.type === 'word' ? 'Nhập từ' : 'Nhập cụm từ';
                 input.className = 'word-input';
-                input.style.width = '260px';
                 if (userAnswers[q.id]) input.value = userAnswers[q.id];
                 input.oninput = (e) => { if(!examSubmitted) userAnswers[q.id] = e.target.value.trim(); };
                 rowDiv.appendChild(input);
@@ -507,40 +450,14 @@
         }
     }
     
-    // Load PDF
-    let pdfDoc = null;
-    function renderPage(pageNum) {
-        pdfDoc.getPage(pageNum).then(page => {
-            const viewport = page.getViewport({ scale: 1.5 });
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            const container = document.getElementById('pdfContainer');
-            container.innerHTML = '';
-            container.appendChild(canvas);
-            const renderContext = { canvasContext: ctx, viewport: viewport };
-            page.render(renderContext);
-        });
-    }
-    function loadPDF() {
-        const url = "https://raw.githubusercontent.com/ms-thuy-classes/audio/main/de-tham-khao-tieng-anh-vao-10-tphcm-2026.pdf";
-        pdfjsLib.getDocument(url).promise.then(doc => {
-            pdfDoc = doc;
-            renderPage(1);
-        }).catch(err => {
-            document.getElementById('pdfContainer').innerHTML = `<div style="padding:20px;color:red;">Không thể tải PDF: ${err.message}</div>`;
-        });
-    }
-    
-    // Timer
+    // ========== TIMER ==========
     function startTimer() {
         timerInterval = setInterval(() => {
             if (examSubmitted) return;
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 document.getElementById('timerDisplay').innerText = "0:00";
-                alert("Hết giờ! Hệ thống tự động nộp bài.");
+                alert("⏰ Hết giờ! Hệ thống tự động nộp bài.");
                 submitExam();
             } else {
                 timeLeft--;
@@ -551,7 +468,7 @@
         }, 1000);
     }
     
-    // Nộp bài & chấm điểm
+    // ========== CHẤM BÀI ==========
     function submitExam() {
         if (examSubmitted) return;
         examSubmitted = true;
@@ -563,18 +480,15 @@
             const userAns = userAnswers[qid];
             let isCorrect = false;
             if (userAns) {
-                if (typeof correctAns === 'string') {
-                    let userStr = userAns.toString().trim().toLowerCase();
-                    let correctStr = correctAns.toString().trim().toLowerCase();
-                    if (qid >= 37 && qid <= 40) {
-                        // Câu viết lại: chuẩn hóa khoảng trắng
-                        userStr = userStr.replace(/\s+/g, ' ').trim();
-                        correctStr = correctStr.replace(/\s+/g, ' ').trim();
-                        isCorrect = (userStr === correctStr);
-                    } else {
-                        isCorrect = (userStr === correctStr);
-                    }
-                } else isCorrect = (userAns === correctAns);
+                let userStr = userAns.toString().trim().toLowerCase();
+                let correctStr = correctAns.toString().trim().toLowerCase();
+                if (qid >= 37 && qid <= 40) {
+                    userStr = userStr.replace(/\s+/g, ' ').trim();
+                    correctStr = correctStr.replace(/\s+/g, ' ').trim();
+                    isCorrect = (userStr === correctStr);
+                } else {
+                    isCorrect = (userStr === correctStr);
+                }
             }
             if (isCorrect) correctCount++;
             else {
@@ -582,7 +496,7 @@
                     id: qid,
                     userAnswer: userAns || '(chưa trả lời)',
                     correctAnswer: correctAns,
-                    explanation: explanations[qid] || "Chưa có giải thích chi tiết."
+                    explanation: explanations[qid] || "Chưa có giải thích."
                 });
             }
         }
@@ -609,27 +523,43 @@
         document.getElementById('resultModal').classList.remove('show');
     }
     
-    // Auto save answers to localStorage? (optional khôi phục)
-    function saveToLocal() {
-        if(!examSubmitted) localStorage.setItem('examAnswers', JSON.stringify(userAnswers));
-    }
-    function loadFromLocal() {
-        const saved = localStorage.getItem('examAnswers');
-        if(saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                Object.assign(userAnswers, parsed);
-            } catch(e){}
-        }
-    }
-    window.onbeforeunload = () => { if(!examSubmitted) saveToLocal(); };
+    // ========== RESIZE COLUMNS ==========
+    const pdfCol = document.getElementById('pdfColumn');
+    const ansCol = document.getElementById('answerColumn');
+    const resizer = document.getElementById('resizer');
+    let startX, startPdfWidth;
     
-    // Khởi tạo
+    resizer.addEventListener('mousedown', (e) => {
+        startX = e.clientX;
+        startPdfWidth = pdfCol.offsetWidth;
+        document.body.style.cursor = 'col-resize';
+        resizer.classList.add('active');
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
+        e.preventDefault();
+    });
+    
+    function onMouseMove(e) {
+        const dx = e.clientX - startX;
+        const containerWidth = document.getElementById('columnsWrapper').offsetWidth;
+        let newPdfW = startPdfWidth + dx;
+        if (newPdfW < 250) newPdfW = 250;
+        if (newPdfW > containerWidth - 250) newPdfW = containerWidth - 250;
+        pdfCol.style.width = newPdfW + 'px';
+        ansCol.style.width = (containerWidth - newPdfW - 16) + 'px';
+    }
+    
+    function onMouseUp() {
+        document.body.style.cursor = '';
+        resizer.classList.remove('active');
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+    }
+    
+    // ========== KHỞI TẠO ==========
     function init() {
         loadPDF();
         renderAnswerSheet();
-        initResize();
-        loadFromLocal();
         startTimer();
         document.getElementById('submitExam').onclick = () => { if(!examSubmitted) submitExam(); };
     }
