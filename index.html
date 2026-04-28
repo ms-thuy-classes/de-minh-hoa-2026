@@ -110,6 +110,51 @@
             background: #a06eff;
             box-shadow: 0 0 0 2px white, 0 0 0 4px #c084fc;
         }
+        /* Thay thế phần CSS từ dòng 110 đến 130 bằng đoạn này */
+.pdf-viewer {
+    flex: 1;
+    overflow-y: auto;  /* THANH CUỘN DỌC */
+    overflow-x: hidden;
+    padding: 20px;
+    background: #e2dcd0;
+    scroll-behavior: smooth;
+    max-height: 100%;
+}
+
+/* Đảm bảo answer sheet cũng có thanh cuộn */
+.answer-sheet {
+    flex: 1;
+    overflow-y: auto;  /* THANH CUỘN DỌC */
+    overflow-x: hidden;
+    padding: 20px 20px 30px;
+    scroll-behavior: smooth;
+    max-height: 100%;
+}
+
+/* Đảm bảo các cột có chiều cao cố định để thanh cuộn hoạt động */
+.pdf-column {
+    width: 66.666%;
+    background: #f5f3ee;
+    border-radius: 28px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: calc(85vh - 150px);  /* Chiều cao cố định */
+    min-height: 500px;
+}
+
+.answer-column {
+    width: 33.333%;
+    background: #fffffff2;
+    border-radius: 28px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: calc(85vh - 150px);  /* Chiều cao cố định */
+    min-height: 500px;
+}
         /* PDF Viewer với thanh cuộn riêng - HIỂN THỊ NHIỀU TRANG */
         .pdf-viewer {
             flex: 1;
